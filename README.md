@@ -1,21 +1,7 @@
-# Day1
+# Advent2018
 
-**TODO: Add description**
+Advent of Code 2018 in elixir
 
-## Installation
+I'm doing this to learn elixir. 
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `day1` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:day1, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/day1](https://hexdocs.pm/day1).
-
+I sometimes write multiple versions of a function, to play with different approaches. My preferred version, the one I'd use in production code, is the *_v1 version. It's the version I think is easiest to understand. In my dotage, simple maintenance seems more important than clever code golf solutions.
