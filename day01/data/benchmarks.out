@@ -1,0 +1,107 @@
+Compiling 1 file (.ex)
+Operating System: macOS
+CPU Information: Intel(R) Core(TM) i7-8559U CPU @ 2.70GHz
+Number of Available Cores: 8
+Available memory: 16 GB
+Elixir 1.8.1
+Erlang 21.2.4
+
+Benchmark suite executing with the following configuration:
+warmup: 2 s
+time: 10 s
+memory time: 2 s
+parallel: 1
+inputs: none specified
+Estimated total run time: 1.40 min
+
+
+Benchmarking enums...
+Benchmarking for...
+Benchmarking helper...
+Benchmarking pipes...
+Benchmarking pretty_pipes...
+Benchmarking streams...
+
+Name                   ips        average  deviation         median         99th %
+for                 1.43 K      698.64 μs    ±14.28%      664.99 μs     1070.99 μs
+pretty_pipes        1.28 K      780.51 μs    ±17.98%      754.99 μs     1220.74 μs
+helper              1.26 K      791.55 μs    ±17.24%      767.99 μs     1206.99 μs
+enums               1.25 K      797.77 μs    ±18.18%      741.99 μs     1266.99 μs
+pipes               1.25 K      798.93 μs    ±26.35%      764.99 μs     1370.41 μs
+streams             1.21 K      825.13 μs    ±16.61%      807.99 μs     1176.11 μs
+
+Comparison: 
+for                 1.43 K
+pretty_pipes        1.28 K - 1.12x slower
+helper              1.26 K - 1.13x slower
+enums               1.25 K - 1.14x slower
+pipes               1.25 K - 1.14x slower
+streams             1.21 K - 1.18x slower
+
+Memory usage statistics:
+
+Name            Memory usage
+for                596.64 KB
+pretty_pipes       566.16 KB - 0.95x memory usage
+helper             566.16 KB - 0.95x memory usage
+enums              611.85 KB - 1.03x memory usage
+pipes              566.16 KB - 0.95x memory usage
+streams            604.80 KB - 1.01x memory usage
+
+**All measurements for memory usage were the same**
+Operating System: macOS
+CPU Information: Intel(R) Core(TM) i7-8559U CPU @ 2.70GHz
+Number of Available Cores: 8
+Available memory: 16 GB
+Elixir 1.8.1
+Erlang 21.2.4
+
+Benchmark suite executing with the following configuration:
+warmup: 2 s
+time: 10 s
+memory time: 2 s
+parallel: 1
+inputs: none specified
+Estimated total run time: 1.40 min
+
+
+Benchmarking enums big...
+Benchmarking for big...
+Benchmarking helper big...
+Benchmarking pipes big...
+Benchmarking pretty_pipes big...
+Benchmarking streams big...
+
+Name                       ips        average  deviation         median         99th %
+pipes big                 7.49      133.49 ms     ±3.95%      132.71 ms      151.78 ms
+helper big                7.44      134.37 ms     ±4.38%      134.79 ms      152.95 ms
+for big                   7.41      134.97 ms     ±3.92%      134.24 ms      150.44 ms
+pretty_pipes big          7.34      136.24 ms     ±3.35%      136.89 ms      143.60 ms
+streams big               7.09      141.12 ms     ±1.96%      141.12 ms      150.69 ms
+enums big                 6.68      149.62 ms     ±3.27%      149.62 ms      160.38 ms
+
+Comparison: 
+pipes big                 7.49
+helper big                7.44 - 1.01x slower
+for big                   7.41 - 1.01x slower
+pretty_pipes big          7.34 - 1.02x slower
+streams big               7.09 - 1.06x slower
+enums big                 6.68 - 1.12x slower
+
+Memory usage statistics:
+
+Name                     average  deviation         median         99th %
+pipes big              115.83 MB     ±0.00%      115.83 MB      115.83 MB
+helper big             115.83 MB     ±0.00%      115.83 MB      115.83 MB
+for big                119.83 MB     ±0.00%      119.83 MB      119.83 MB
+pretty_pipes big       115.83 MB     ±0.00%      115.83 MB      115.83 MB
+streams big            123.63 MB     ±0.00%      123.63 MB      123.63 MB
+enums big              122.96 MB     ±0.00%      122.96 MB      122.96 MB
+
+Comparison: 
+pipes big              115.83 MB
+helper big             115.83 MB - 1.00x memory usage
+for big                119.83 MB - 1.03x memory usage
+pretty_pipes big       115.83 MB - 1.00x memory usage
+streams big            123.63 MB - 1.07x memory usage
+enums big              122.96 MB - 1.06x memory usage

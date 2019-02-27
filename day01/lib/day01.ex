@@ -8,12 +8,12 @@ defmodule Day01 do
 
   ## Examples
 
-      iex> Day01.part1_v1("data/day01.txt")
+      iex> Day01.part1_v1_helper("data/day01.txt")
       592
 
   """
 
-  def part1_v1(file_name) do
+  def part1_v1_helper(file_name) do
     File.stream!(file_name)
     |> Enum.reduce(0, &add_line/2)
   end
@@ -30,12 +30,12 @@ defmodule Day01 do
 
   ## Examples
 
-      iex> Day01.part1_v2("data/day01.txt")
+      iex> Day01.part1_v2_pipes("data/day01.txt")
       592
 
   """
 
-  def part1_v2(file_name) do
+  def part1_v2_pipes(file_name) do
     File.stream!(file_name)
     |> Enum.reduce(0, &(&1 |> String.trim() |> String.to_integer() |> Kernel.+(&2)))
   end
@@ -46,12 +46,12 @@ defmodule Day01 do
 
   ## Examples
 
-      iex> Day01.part1_v3("data/day01.txt")
+      iex> Day01.part1_v3_pretty_pipes("data/day01.txt")
       592
 
   """
 
-  def part1_v3(file_name) do
+  def part1_v3_pretty_pipes(file_name) do
     File.stream!(file_name)
     |> Enum.reduce(
       0,
@@ -69,15 +69,48 @@ defmodule Day01 do
 
   ## Examples
 
-      iex> Day01.part1_v4("data/day01.txt")
+      iex> Day01.part1_v4_streams("data/day01.txt")
       592
 
   """
 
-  def part1_v4(file_name) do
+  def part1_v4_streams(file_name) do
     File.stream!(file_name)
     |> Stream.map(&String.trim/1)
     |> Stream.map(&String.to_integer/1)
     |> Enum.sum()
+  end
+
+  @doc """
+  Enums instead of streams. Should be noticeably slower.
+
+  ## Examples
+
+      iex> Day01.part1_v5_enums("data/day01.txt")
+      592
+
+  """
+
+  def part1_v5_enums(file_name) do
+    File.stream!(file_name)
+    |> Enum.map(&String.trim/1)
+    |> Enum.map(&String.to_integer/1)
+    |> Enum.sum()
+  end
+
+  @doc """
+  for (list comprehension).
+
+  ## Examples
+
+      iex> Day01.part1_v6_for("data/day01.txt")
+      592
+
+  """
+
+  def part1_v6_for(file_name) do
+    Enum.sum(
+      for line <- File.stream!(file_name), do: line |> String.trim() |> String.to_integer()
+    )
   end
 end
