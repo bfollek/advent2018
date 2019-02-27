@@ -15,13 +15,14 @@ defmodule Day01 do
 
   def part1_v1(file_name) do
     File.stream!(file_name)
-    |> Enum.reduce(0, &(line_to_int(&1) + &2))
+    |> Enum.reduce(0, &add_line/2)
   end
 
-  defp line_to_int(line) do
+  defp add_line(line, acc) do
     line
     |> String.trim()
     |> String.to_integer()
+    |> Kernel.+(acc)
   end
 
   @doc """
