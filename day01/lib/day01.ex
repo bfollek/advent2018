@@ -4,7 +4,7 @@ defmodule Day01 do
   """
 
   @doc """
-  part1_v1 reads the data and keeps a running tally of the numbers, starting from zero.
+  part1 reads the data and keeps a running tally of the numbers, starting from zero.
 
   ## Examples
 
@@ -26,9 +26,7 @@ defmodule Day01 do
   end
 
   @doc """
-  part1_v2 reads the data and keeps a running tally of the numbers, starting from zero.
-
-  Pipes within pipes, to avoid the helper func. Plumbing nightmare.
+  Pipes within pipes, to avoid the helper func. Plumbing nightmare?
 
   ## Examples
 
@@ -40,5 +38,46 @@ defmodule Day01 do
   def part1_v2(file_name) do
     File.stream!(file_name)
     |> Enum.reduce(0, &(&1 |> String.trim() |> String.to_integer() |> Kernel.+(&2)))
+  end
+
+  @doc """
+  Same code as v2, but formatted differently. Easier to follow than v2, but is this any better than v1?
+  The anonymous func still looks noisy.
+
+  ## Examples
+
+      iex> Day01.part1_v3("data/day01.txt")
+      592
+
+  """
+
+  def part1_v3(file_name) do
+    File.stream!(file_name)
+    |> Enum.reduce(
+      0,
+      &(&1
+        |> String.trim()
+        |> String.to_integer()
+        |> Kernel.+(&2))
+    )
+  end
+
+  @doc """
+  Streams. Should be just as efficient as the other versions, because streams are lazy.
+  In some ways, this may be the cleanest approach: Say exactly what you want to do.
+   But is it a little obscure? Is everybody comfortable with streams vs. enums? Am I?
+
+  ## Examples
+
+      iex> Day01.part1_v4("data/day01.txt")
+      592
+
+  """
+
+  def part1_v4(file_name) do
+    File.stream!(file_name)
+    |> Stream.map(&String.trim/1)
+    |> Stream.map(&String.to_integer/1)
+    |> Enum.sum()
   end
 end
