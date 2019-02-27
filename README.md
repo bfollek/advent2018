@@ -22,6 +22,6 @@ Conclusions:
 
 Possible Explanations:
 * The high quality of the Elixir compiler and the beam VM;
-* I'm using a benchmarking tool I don't knoow to benchmark code I wrote in a language I don't know to solve a trivial problem. There may be tunnel-sized holes in my approach.
+* I'm using a benchmarking tool I don't know to benchmark code I wrote in a language I don't know to solve a trivial problem. There may be tunnel-sized holes in my approach.
 
 
