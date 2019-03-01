@@ -132,20 +132,22 @@ defmodule Day01 do
     |> part2_loop(sum, sums_seen)
   end
 
+  # We may have to pass through the numbers list multiple times before
+  # we hit a duplicate sum. If we exhaust the list, start again.
   defp part2_loop([], sum, sums_seen), do: part2_loop(load_ints(), sum, sums_seen)
 
   defp part2_loop([h | t], sum, sums_seen) do
     sum = h + sum
 
-    if sums_seen[sum] do
-      sum
-    else
-      part2_loop(t, sum, Map.put(sums_seen, sum, true))
+    case sums_seen do
+      %{^sum => _} ->
+        sum
+
+      _ ->
+        part2_loop(t, sum, Map.put(sums_seen, sum, true))
     end
   end
 
-  # We may have to pass through the numbers multiple
-  # times before we hit a duplicate sum.
   defp load_ints() do
     File.stream!("data/day01.txt")
     |> Stream.map(&String.trim/1)
