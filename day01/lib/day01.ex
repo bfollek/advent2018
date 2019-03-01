@@ -119,37 +119,37 @@ defmodule Day01 do
 
   ## Examples
 
-      iex> Day01.part2("data/day01.txt")
+      iex> Day01.part2()
       241
 
   """
 
-  def part2(file_name) do
+  def part2() do
     sum = 0
     sums_seen = %{sum => true}
 
-    file_name
-    |> endless_ints
+    load_ints()
     |> part2_loop(sum, sums_seen)
   end
 
-  defp part2_loop(nums, sum, sums_seen) do
-    [h] = Enum.take(nums, 1)
+  defp part2_loop([], sum, sums_seen), do: part2_loop(load_ints(), sum, sums_seen)
+
+  defp part2_loop([h | t], sum, sums_seen) do
     sum = h + sum
 
     if sums_seen[sum] do
       sum
     else
-      part2_loop(nums, sum, %{sums_seen | sum => true})
+      part2_loop(t, sum, Map.put_new(sums_seen, sum, true))
     end
   end
 
-  # We may have to pass through the numbers multiple times before we
-  # hit a duplicate sum. Make this easy and efficient.
-  defp endless_ints(file_name) do
-    File.stream!(file_name)
+  # We may have to pass through the numbers multiple
+  # times before we hit a duplicate sum.
+  defp load_ints() do
+    File.stream!("data/day01.txt")
     |> Stream.map(&String.trim/1)
     |> Stream.map(&String.to_integer/1)
-    |> Stream.cycle()
+    |> Enum.to_list()
   end
 end
