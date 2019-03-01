@@ -125,8 +125,7 @@ defmodule Day01 do
   """
 
   def part2() do
-    # part2_loop(num_list(), 0, %{0 => true})
-    part2_loop_cycle(endless_nums(), 0, %{0 => true})
+    part2_loop(num_list(), 0, %{0 => true})
   end
 
   # We may have to pass through the numbers list multiple times before
@@ -149,28 +148,5 @@ defmodule Day01 do
     |> Stream.map(&String.trim/1)
     |> Stream.map(&String.to_integer/1)
     |> Enum.to_list()
-  end
-
-  defp part2_loop_cycle(nums, sum, sums_seen) do
-    nxt = Enum.at(nums, 0)
-    sum = nxt + sum
-
-    if sums_seen[sum] do
-      sum
-    else
-      part2_loop_cycle(Stream.drop(nums, 1), sum, Map.put(sums_seen, sum, true))
-    end
-  end
-
-  defp endless_nums() do
-    # First, into a list
-    e =
-      File.stream!("data/day01.txt")
-      |> Stream.map(&String.trim/1)
-      |> Stream.map(&String.to_integer/1)
-      |> Enum.to_list()
-
-    # Next,cycle the list
-    Stream.cycle(e)
   end
 end
