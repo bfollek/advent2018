@@ -140,7 +140,7 @@ defmodule Day01 do
     if sums_seen[sum] do
       sum
     else
-      part2_loop(t, sum, Map.put_new(sums_seen, sum, true))
+      part2_loop(t, sum, Map.put(sums_seen, sum, true))
     end
   end
 
