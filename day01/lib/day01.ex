@@ -4,7 +4,7 @@ defmodule Day01 do
   """
 
   @doc """
-  part1 reads the data and keeps a running tally of the numbers, starting from zero.
+  part1 reads the data and keeps a running sum of the numbers, starting from zero.
 
   ## Examples
 
@@ -112,5 +112,44 @@ defmodule Day01 do
     Enum.sum(
       for line <- File.stream!(file_name), do: line |> String.trim() |> String.to_integer()
     )
+  end
+
+  @doc """
+  part2 loops through the numbers till it sees a running sum for a second time.
+
+  ## Examples
+
+      iex> Day01.part2("data/day01.txt")
+      241
+
+  """
+
+  def part2(file_name) do
+    sum = 0
+    sums_seen = %{sum => true}
+
+    file_name
+    |> endless_ints
+    |> part2_loop(sum, sums_seen)
+  end
+
+  defp part2_loop(nums, sum, sums_seen) do
+    [h] = Enum.take(nums, 1)
+    sum = h + sum
+
+    if sums_seen[sum] do
+      sum
+    else
+      part2_loop(nums, sum, %{sums_seen | sum => true})
+    end
+  end
+
+  # We may have to pass through the numbers multiple times before we
+  # hit a duplicate sum. Make this easy and efficient.
+  defp endless_ints(file_name) do
+    File.stream!(file_name)
+    |> Stream.map(&String.trim/1)
+    |> Stream.map(&String.to_integer/1)
+    |> Stream.cycle()
   end
 end
