@@ -136,15 +136,14 @@ defmodule Day01 do
   # we hit a duplicate sum. If we exhaust the list, start again.
   defp part2_loop([], sum, sums_seen), do: part2_loop(load_ints(), sum, sums_seen)
 
+  # When we repeat a sum, we're done.
   defp part2_loop([h | t], sum, sums_seen) do
     sum = h + sum
 
-    case sums_seen do
-      %{^sum => _} ->
-        sum
-
-      _ ->
-        part2_loop(t, sum, Map.put(sums_seen, sum, true))
+    if sums_seen[sum] do
+      sum
+    else
+      part2_loop(t, sum, Map.put(sums_seen, sum, true))
     end
   end
 
