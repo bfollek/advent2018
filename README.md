@@ -2,7 +2,7 @@
 
 Advent of Code 2018 in elixir
 
-I'm doing this to learn elixir. I sometimes write multiple versions of a function, to play with different approaches.
+I'm doing this to learn elixir. I'm focusing on the language itself rather than the concurrency/OTP/beam features. I'm trying to solve things in a stateless way.
 
 ### Day 1
 
@@ -23,5 +23,14 @@ Conclusions:
 Possible Explanations:
 * The high quality of the Elixir compiler and the beam VM;
 * I'm using a benchmarking tool I don't know to benchmark code I wrote in a language I don't know to solve a trivial problem. There may be tunnel-sized holes anywhere in my approach.
+
+#### Part 2
+
+For this part, you have to potentially loop through the list of numbers in the file more than once. I thought that Stream.cycle would make this easy. (I did this part in clojure a few months back, and cycle worked well.) But I ran into two possibly related problems:
+
+* To use the stream elements, I had to materialize them with an Enum function;
+* Stream.cycle got slower and slower as the stream size increased.
+
+It's certainly possible I was using Stream.cycle incorrectly. I ended up repeatedly loading the numbers from file as needed, and that worked fine: I got the right answer, and it was fast.
 
 
