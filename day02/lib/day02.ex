@@ -20,28 +20,30 @@ defmodule Day02 do
 
   """
   def part1(file_name) do
+    # char_groups is a list of lists of lists. Each element in char_groups
+    # corresponds to a string in the file. The string has been transformed
+    # into a list of lists. Each inner list is a list of one or more
+    # identical chars that we can count.
     char_groups =
       File.stream!(file_name)
       # We can leave the newlines because they won't affect the results
       |> Enum.map(&group_chars/1)
 
-    count_groups_with_len(char_groups, 2) * count_groups_with_len(char_groups, 3)
+    count_chars(char_groups, 2) * count_chars(char_groups, 3)
   end
 
   def group_chars(s) do
-    # "abcabdbd" to ["a","b","c","a",etc.]
+    # From "aba" to ["a", "b", "a"]
     String.graphemes(s)
-    # ["a","b","c","a",etc.] to %{"a" => ["a", "a"], "b" => ["b", "b", "b"], "c" => ["c"], "d" => ["d", "d"]}
+    # From ["a", "b", "a"] to %{"a" => ["a", "a"], "b" => ["b"]}
     |> Enum.group_by(& &1)
-    # map to [["a", "a"], ["b", "b", "b"], ["c"], ["d", "d"]]
+    # From %{"a" => ["a", "a"], "b" => ["b"]} to [["a", "a"], ["b"]]
     |> Map.values()
   end
 
-  def count_groups_with_len(char_groups, len) do
+  def count_chars(char_groups, len) do
     char_groups
-    |> Enum.filter(fn cg ->
-      Enum.any?(cg, fn letter_list -> length(letter_list) == len end)
-    end)
+    |> Enum.filter(&Enum.any?(&1, fn letter_list -> length(letter_list) == len end))
     |> length
   end
 end
