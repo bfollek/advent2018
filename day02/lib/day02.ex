@@ -23,15 +23,12 @@ defmodule Day02 do
     char_groups =
       File.stream!(file_name)
       # We can leave the newlines because they won't affect the results
-      |> Enum.map(&group_by_chars/1)
+      |> Enum.map(&group_chars/1)
 
-    count_chars(char_groups, 2) * count_chars(char_groups, 3)
-    # has_2 = count_chars(char_groups, 2)
-    # has_3 = count_chars(char_groups, 3)
-    # length(has_2) * length(has_3)
+    count_groups_with_len(char_groups, 2) * count_groups_with_len(char_groups, 3)
   end
 
-  def group_by_chars(s) do
+  def group_chars(s) do
     # "abcabdbd" to ["a","b","c","a",etc.]
     String.graphemes(s)
     # ["a","b","c","a",etc.] to %{"a" => ["a", "a"], "b" => ["b", "b", "b"], "c" => ["c"], "d" => ["d", "d"]}
@@ -40,7 +37,10 @@ defmodule Day02 do
     |> Map.values()
   end
 
-  def count_chars(char_groups, i) do
-    length(Enum.filter(char_groups, &Enum.any?(&1, fn cg -> length(cg) == i end)))
+  def count_groups_with_len(char_groups, len) do
+    Enum.filter(char_groups, fn cg ->
+      Enum.any?(cg, fn letter_list -> length(letter_list) == len end)
+    end)
+    |> length
   end
 end
