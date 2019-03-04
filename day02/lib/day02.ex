@@ -38,7 +38,8 @@ defmodule Day02 do
   end
 
   def count_groups_with_len(char_groups, len) do
-    Enum.filter(char_groups, fn cg ->
+    char_groups
+    |> Enum.filter(fn cg ->
       Enum.any?(cg, fn letter_list -> length(letter_list) == len end)
     end)
     |> length
