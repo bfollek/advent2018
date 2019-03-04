@@ -28,9 +28,11 @@ defmodule Day02 do
   end
 
   def group_by_chars(s) do
-    # %{"a" => ["a", "a"], "b" => ["b", "b", "b"], "c" => ["c"], "d" => ["d", "d"]}
-    Enum.group_by(String.graphemes(s), & &1)
-    # [["a", "a"], ["b", "b", "b"], ["c"], ["d", "d"]]
+    # "abcabdbd" to ["a","b","c","a",etc.]
+    String.graphemes(s)
+    # ["a","b","c","a",etc.] to %{"a" => ["a", "a"], "b" => ["b", "b", "b"], "c" => ["c"], "d" => ["d", "d"]}
+    |> Enum.group_by(& &1)
+    # map to [["a", "a"], ["b", "b", "b"], ["c"], ["d", "d"]]
     |> Map.values()
   end
 
