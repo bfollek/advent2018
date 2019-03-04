@@ -32,7 +32,7 @@ defmodule Day02 do
     count_chars(char_groups, 2) * count_chars(char_groups, 3)
   end
 
-  def group_chars(s) do
+  defp group_chars(s) do
     # From "aba" to ["a", "b", "a"]
     String.graphemes(s)
     # From ["a", "b", "a"] to %{"a" => ["a", "a"], "b" => ["b"]}
@@ -41,7 +41,7 @@ defmodule Day02 do
     |> Map.values()
   end
 
-  def count_chars(char_groups, len) do
+  defp count_chars(char_groups, len) do
     char_groups
     |> Enum.filter(&Enum.any?(&1, fn letter_list -> length(letter_list) == len end))
     |> length
