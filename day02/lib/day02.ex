@@ -22,8 +22,8 @@ defmodule Day02 do
   def part1(file_name) do
     ss = File.stream!(file_name) |> Enum.map(&String.trim/1)
     char_groups = Enum.map(ss, &group_by_chars/1)
-    has_2 = Enum.filter(char_groups, &Enum.any?(&1, fn cg -> length(cg) == 2 end))
-    has_3 = Enum.filter(char_groups, &Enum.any?(&1, fn cg -> length(cg) == 3 end))
+    has_2 = count_chars(char_groups, 2)
+    has_3 = count_chars(char_groups, 3)
     length(has_2) * length(has_3)
   end
 
@@ -32,5 +32,9 @@ defmodule Day02 do
     Enum.group_by(String.graphemes(s), & &1)
     # [["a", "a"], ["b", "b", "b"], ["c"], ["d", "d"]]
     |> Map.values()
+  end
+
+  def count_chars(char_groups, i) do
+    Enum.filter(char_groups, &Enum.any?(&1, fn cg -> length(cg) == i end))
   end
 end
