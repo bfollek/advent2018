@@ -20,17 +20,17 @@ defmodule Day02 do
 
   """
   def part1(file_name) do
-    ss = File.stream!(file_name)
-    has_2 = Enum.filter(ss, &check_string(&1, 2))
-    has_3 = Enum.filter(ss, &check_string(&1, 3))
+    ss = File.stream!(file_name) |> Enum.map(&String.trim/1)
+    char_groups = Enum.map(ss, &group_by_chars/1)
+    has_2 = Enum.filter(char_groups, &Enum.any?(&1, fn cg -> length(cg) == 2 end))
+    has_3 = Enum.filter(char_groups, &Enum.any?(&1, fn cg -> length(cg) == 3 end))
     length(has_2) * length(has_3)
   end
 
-  defp check_string(s, i) do
-    Enum.group_by(String.graphemes(s), & &1)
+  def group_by_chars(s) do
     # %{"a" => ["a", "a"], "b" => ["b", "b", "b"], "c" => ["c"], "d" => ["d", "d"]}
-    |> Map.values()
+    Enum.group_by(String.graphemes(s), & &1)
     # [["a", "a"], ["b", "b", "b"], ["c"], ["d", "d"]]
-    |> Enum.any?(&(length(&1) == i))
+    |> Map.values()
   end
 end
