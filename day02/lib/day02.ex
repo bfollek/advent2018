@@ -20,11 +20,15 @@ defmodule Day02 do
 
   """
   def part1(file_name) do
-    ss = File.stream!(file_name) |> Enum.map(&String.trim/1)
-    char_groups = Enum.map(ss, &group_by_chars/1)
-    has_2 = count_chars(char_groups, 2)
-    has_3 = count_chars(char_groups, 3)
-    length(has_2) * length(has_3)
+    char_groups =
+      File.stream!(file_name)
+      # We can leave the newlines because they won't affect the results
+      |> Enum.map(&group_by_chars/1)
+
+    count_chars(char_groups, 2) * count_chars(char_groups, 3)
+    # has_2 = count_chars(char_groups, 2)
+    # has_3 = count_chars(char_groups, 3)
+    # length(has_2) * length(has_3)
   end
 
   def group_by_chars(s) do
@@ -37,6 +41,6 @@ defmodule Day02 do
   end
 
   def count_chars(char_groups, i) do
-    Enum.filter(char_groups, &Enum.any?(&1, fn cg -> length(cg) == i end))
+    length(Enum.filter(char_groups, &Enum.any?(&1, fn cg -> length(cg) == i end)))
   end
 end
