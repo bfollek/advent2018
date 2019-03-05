@@ -68,26 +68,29 @@ defmodule Day02 do
 
     # From ["abc", "def", "ghi"] to [["abc", "def"], ["abc", "ghi"], ["def", "ghi"]]
     # Then get the myers_difference between each pair of strings.
-    diffs = for(e1 <- ss, e2 <- ss, e1 != e2, do: String.myers_difference(e1, e2))
-
-    diffs
-    |> Enum.find(&diff_by_1?/1)
+    for(e1 <- ss, e2 <- ss, e1 != e2, do: String.myers_difference(e1, e2))
+    |> Enum.find(&differ_by_1?/1)
     |> Keyword.get_values(:eq)
     |> Enum.join()
-
-    #      |> Keyword.delete(:eq)
-    #      |> Enum.find(&(length(&1) == 2))
   end
 
-  defp diff_by_1?(diff) do
+  # The diff is a keyword list, like this:
+  #
+  #   [eq: "ab", del: "c", ins: "z", eq: "d"]
+  #
+  # Join all :del values together. If the resulting string has length 1, and the same
+  # is true for all the :ins values, then the two strings differ by 1 char.
+  defp differ_by_1?(diff) do
     Enum.all?(
       [:del, :ins],
-      &(String.length(Enum.join(Keyword.get_values(diff, &1))) == 1)
+      &(Keyword.get_values(diff, &1)
+        |> Enum.join()
+        |> String.length()
+        |> Kernel.==(1))
     )
   end
 
   # todo
-  # pipe in diff_by_1?
-  # pipe in part2
   # get 1 myers_diff, check it, continue
+  # get 1 pair of strings, check it, continue
 end
