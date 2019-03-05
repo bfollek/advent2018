@@ -66,18 +66,28 @@ defmodule Day02 do
       File.stream!(file_name)
       |> Stream.map(&String.trim/1)
 
-    # iex(34)> for e1 <- l1, e2 <- l2, do: [e1, e2]
-    # [[1, 4], [1, 5], [1, 6], [2, 4], [2, 5], [2, 6], [3, 4], [3, 5], [3, 6]]
-
-    # Permute ss with itself.
     # From ["abc", "def", "ghi"] to [["abc", "def"], ["abc", "ghi"], ["def", "ghi"]]
-    pairs = for e1 <- ss, e2 <- ss, e1 != e2, do: [e1, e2]
-    IO.puts(inspect(pairs))
+    # Then get the myers_difference between each pair of strings.
+    diffs = for(e1 <- ss, e2 <- ss, e1 != e2, do: String.myers_difference(e1, e2))
 
-    "?"
-    # iex(29)> Enum.zip([1,2,3], [1,2,3])
-    # [{1, 1}, {2, 2}, {3, 3}]
-    # iex(28)> String.myers_difference("abcd", "abzd")
-    # [eq: "ab", del: "c", ins: "z", eq: "d"]
+    diffs
+    |> Enum.find(&diff_by_1?/1)
+    |> Keyword.get_values(:eq)
+    |> Enum.join()
+
+    #      |> Keyword.delete(:eq)
+    #      |> Enum.find(&(length(&1) == 2))
   end
+
+  defp diff_by_1?(diff) do
+    Enum.all?(
+      [:del, :ins],
+      &(String.length(Enum.join(Keyword.get_values(diff, &1))) == 1)
+    )
+  end
+
+  # todo
+  # pipe in diff_by_1?
+  # pipe in part2
+  # get 1 myers_diff, check it, continue
 end
