@@ -50,10 +50,13 @@ defmodule Day02 do
   @doc """
   Read a file of strings;
   Find the two strings that differ by one char in the same position;
-  Remove the differing char and return the common chars.
+  Return the other chars they have in common.
 
   Conditions:
-  Preserve the original order of the comman chars.
+  Preserve the original order of the common chars.
+
+  Todo:
+  Don't permute all the strings. Check a pair, stop ASAP.
 
   ## Examples
 
@@ -89,8 +92,4 @@ defmodule Day02 do
         |> Kernel.==(1))
     )
   end
-
-  # todo
-  # get 1 myers_diff, check it, continue
-  # get 1 pair of strings, check it, continue
 end
