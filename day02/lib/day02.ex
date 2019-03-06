@@ -89,4 +89,29 @@ defmodule Day02 do
   def _common_chars([], []), do: []
   def _common_chars([h1 | t1], [h2 | t2]) when h1 == h2, do: [h1 | _common_chars(t1, t2)]
   def _common_chars([_ | t1], [_ | t2]), do: _common_chars(t1, t2)
+
+  @doc """
+
+  ## Examples
+
+      iex> Day02.part2_for_v2("data/day02.txt")
+      "fvstwblgqkhpuixdrnevmaycd"
+
+  """
+  def part2_for_v2(file_name) do
+    ss =
+      File.stream!(file_name)
+      |> Stream.map(&String.trim/1)
+
+    # From ["abc", "def", "ghi"] to [["abc", "def"], ["abc", "ghi"], ["def", "ghi"]]
+    # The less-than filter makes sure we don't get dups by comparing both ["a", "b"] and ["b", "a"]
+    step1 = for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, common_chars(s1, s2)})
+
+    [{_, winner}] =
+      Enum.filter(step1, fn tup ->
+        String.length(elem(tup, 0)) == String.length(elem(tup, 1)) + 1
+      end)
+
+    winner
+  end
 end
