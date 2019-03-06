@@ -2,11 +2,9 @@ defmodule Day02 do
   @moduledoc """
   Advent of Code 2018, day 2.
 
-  todo
-    # {:more, list1, list2, nil}
-  # {:done, _, _, result}
   Todo:
-  Don't permute all the strings. Check a pair, stop ASAP.
+  Benchmark!
+  Don't build all the string pairs. Check a pair, stop ASAP.
   """
 
   @doc """
@@ -61,13 +59,18 @@ defmodule Day02 do
   Conditions:
   Preserve the original order of the common chars.
 
+  Notes:
+  * Builds all the string pairs in the for form.
+  * Finds the right strings by filtering in the for form.
+  * Calls common_chars/2 twice.
+
   ## Examples
 
-      iex> Day02.part2_for("data/day02.txt")
+      iex> Day02.part2_for_v1("data/day02.txt")
       "fvstwblgqkhpuixdrnevmaycd"
 
   """
-  def part2_for(file_name) do
+  def part2_for_v1(file_name) do
     ss =
       File.stream!(file_name)
       |> Stream.map(&String.trim/1)
@@ -81,6 +84,7 @@ defmodule Day02 do
     h
   end
 
+  # True if first string is one char longer than the common chars.
   def differ_by_1?(s1, s2), do: String.length(s1) == String.length(common_chars(s1, s2)) + 1
 
   def common_chars(s1, s2) when is_binary(s1) and is_binary(s2),
@@ -91,6 +95,11 @@ defmodule Day02 do
   def _common_chars([_ | t1], [_ | t2]), do: _common_chars(t1, t2)
 
   @doc """
+
+  Notes:
+  * Builds all the string pairs in the for form.
+  * Finds the right strings after the for form.
+  * Calls common_chars/2 once.
 
   ## Examples
 
@@ -105,11 +114,12 @@ defmodule Day02 do
 
     # From ["abc", "def", "ghi"] to [["abc", "def"], ["abc", "ghi"], ["def", "ghi"]]
     # The less-than filter makes sure we don't get dups by comparing both ["a", "b"] and ["b", "a"]
-    step1 = for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, common_chars(s1, s2)})
-
-    [{_, winner}] =
-      Enum.filter(step1, fn tup ->
-        String.length(elem(tup, 0)) == String.length(elem(tup, 1)) + 1
+    # The for form returns a list whose elements are tuples of {first string, common chars}
+    {_, winner} =
+      for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, common_chars(s1, s2)})
+      |> Enum.find(fn t ->
+        # Winner if first string is one char longer than the common chars.
+        String.length(elem(t, 0)) == String.length(elem(t, 1)) + 1
       end)
 
     winner
