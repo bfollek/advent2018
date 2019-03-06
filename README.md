@@ -33,4 +33,13 @@ For this part, you have to potentially loop through the list of numbers in the f
 
 It's certainly possible I was using Stream.cycle incorrectly. I ended up repeatedly loading the numbers from file as needed, and that worked fine: I got the right answer, and it was fast.
 
+### Day 1
+
+#### Part 2
+
+One nice thing here was finding String.myers_difference in the standard library. Handy for problems like this.
+
+My first version, part2_for, uses a list comprehension (for form) to build and diff the pairs of strings. I think it's clean, but it has a performance drawback: We build **all** the pairs of strings before we look for the pair we want. It's more efficient to build a pair, test it, and build the next pair only if the first pair isn't the one we want. But Elixir's for form isn't lazy, and I couldn't find a way to short-circuit it.
+
+
 

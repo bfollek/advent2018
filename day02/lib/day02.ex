@@ -1,6 +1,12 @@
 defmodule Day02 do
   @moduledoc """
   Advent of Code 2018, day 2.
+
+  todo
+    # {:more, list1, list2, nil}
+  # {:done, _, _, result}
+  Todo:
+  Don't permute all the strings. Check a pair, stop ASAP.
   """
 
   @doc """
@@ -55,41 +61,49 @@ defmodule Day02 do
   Conditions:
   Preserve the original order of the common chars.
 
-  Todo:
-  Don't permute all the strings. Check a pair, stop ASAP.
-
   ## Examples
 
-      iex> Day02.part2("data/day02.txt")
+      iex> Day02.part2_for("data/day02.txt")
       "fvstwblgqkhpuixdrnevmaycd"
 
   """
-  def part2(file_name) do
+  def part2_for(file_name) do
     ss =
       File.stream!(file_name)
       |> Stream.map(&String.trim/1)
 
     # From ["abc", "def", "ghi"] to [["abc", "def"], ["abc", "ghi"], ["def", "ghi"]]
-    # Then get the myers_difference between each pair of strings.
-    for(e1 <- ss, e2 <- ss, e1 != e2, do: String.myers_difference(e1, e2))
-    |> Enum.find(&differ_by_1?/1)
-    |> Keyword.get_values(:eq)
-    |> Enum.join()
+    # The less-than filter makes sure we don't get dups by comparing both ["a", "b"] and ["b", "a"]
+    # Then filter to find the pair that differs by 1 char.
+    # Then extract the common chars.
+    [h | _] = for(s1 <- ss, s2 <- ss, s1 < s2, differ_by_1?(s1, s2), do: common_chars(s1, s2))
+
+    h
   end
 
-  # The diff is a keyword list, like this:
+  # diff is a keyword list, like this:
   #
   #   [eq: "ab", del: "c", ins: "z", eq: "d"]
   #
   # Join all :del values together. If the resulting string has length 1, and the same
   # is true for all the :ins values, then the two strings differ by 1 char.
-  defp differ_by_1?(diff) do
-    Enum.all?(
-      [:del, :ins],
-      &(Keyword.get_values(diff, &1)
-        |> Enum.join()
-        |> String.length()
-        |> Kernel.==(1))
-    )
+  def differ_by_1?(s1, s2) do
+    String.length(s1) == String.length(common_chars(s1, s2)) + 1
+    # diff = String.myers_difference(s1, s2)
+
+    # Enum.all?(
+    #   [:del, :ins],
+    #   &(Keyword.get_values(diff, &1)
+    #     |> Enum.join()
+    #     |> String.length()
+    #     |> Kernel.==(1))
+    # )
   end
+
+  def common_chars(s1, s2) when is_binary(s1) and is_binary(s2),
+    do: _common_chars(String.graphemes(s1), String.graphemes(s2)) |> Enum.join()
+
+  def _common_chars([], []), do: []
+  def _common_chars([h1 | t1], [h2 | t2]) when h1 == h2, do: [h1 | _common_chars(t1, t2)]
+  def _common_chars([_ | t1], [_ | t2]), do: _common_chars(t1, t2)
 end
