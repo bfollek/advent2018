@@ -81,24 +81,7 @@ defmodule Day02 do
     h
   end
 
-  # diff is a keyword list, like this:
-  #
-  #   [eq: "ab", del: "c", ins: "z", eq: "d"]
-  #
-  # Join all :del values together. If the resulting string has length 1, and the same
-  # is true for all the :ins values, then the two strings differ by 1 char.
-  def differ_by_1?(s1, s2) do
-    String.length(s1) == String.length(common_chars(s1, s2)) + 1
-    # diff = String.myers_difference(s1, s2)
-
-    # Enum.all?(
-    #   [:del, :ins],
-    #   &(Keyword.get_values(diff, &1)
-    #     |> Enum.join()
-    #     |> String.length()
-    #     |> Kernel.==(1))
-    # )
-  end
+  def differ_by_1?(s1, s2), do: String.length(s1) == String.length(common_chars(s1, s2)) + 1
 
   def common_chars(s1, s2) when is_binary(s1) and is_binary(s2),
     do: _common_chars(String.graphemes(s1), String.graphemes(s2)) |> Enum.join()
