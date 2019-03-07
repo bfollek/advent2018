@@ -138,20 +138,26 @@ defmodule Day02 do
   def part2_fast(file_name) do
     ss =
       File.stream!(file_name)
-      # Do I need Enum here?
       |> Enum.map(&String.trim/1)
 
     check_string(ss, ss, ss)
   end
 
-  def check_string([_h | t], [], ss), do: check_string(t, ss, ss)
+  # If the second list is empty, we've checked the head of the first list
+  # against all the other strings, without success. Move on to the next
+  # value in the first list, and start with a full second list.
+  defp check_string([_h | t], [], ss), do: check_string(t, ss, ss)
 
-  def check_string([h1 | t1], [h2 | t2], ss) do
+  # Check the head of the first list against each value in the second list.
+  defp check_string([h1 | t1], [h2 | t2], ss) do
     cc = common_chars(h1, h2)
 
+    # If the head of the first list and the head of the second list are the
+    # strings we're looking for, we're done. Return the common chars.
     if String.length(h1) == String.length(cc) + 1 do
       cc
     else
+      # Check the head of the first list against the next value in the second list.
       check_string([h1 | t1], t2, ss)
     end
   end

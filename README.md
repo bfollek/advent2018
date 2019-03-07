@@ -37,11 +37,23 @@ It's certainly possible I was using Stream.cycle incorrectly. I ended up repeate
 
 #### Part 2
 
-The difference between my first versions, part2_for_v1 and part2_for_v2, is that part2_for_v2 minimizes calls to common_char(). It's about 50ms faster than part2_for_v1, according to day01/data/benchmarks.out.
+The difference between my first versions, part2_for_v1 and part2_for_v2, is that part2_for_v2 minimizes calls to common_char(). It's about 60ms faster than part2_for_v1, according to day01/data/benchmarks.out.
 
 But both versions use a list comprehension (for form) to build the pairs of strings. I think the code is clean, but it has a performance drawback: We build **all** the pairs of strings to look for the pair we want. It's more efficient to build a pair, test it, and keep going only if we haven't found the pair we want. 
 
-elixir's for form isn't lazy, and I couldn't find a way to short-circuit it the way take() does in clojure. So I wrote...
+elixir's for form isn't lazy, and I couldn't find a way to short-circuit it the way take() does in clojure. So I wrote a version that doesn't use the for form, and stops as soon as it finds the right strings. It's called part2_fast, and it's significantly faster than the other versions:
+
+```
+Name                   ips        average  deviation         median         99th %
+part2 fast            5.12      195.18 ms     ±3.05%      193.36 ms      214.54 ms
+part2 for v2          3.54      282.65 ms     ±1.34%      282.45 ms      291.57 ms
+part2 for v1          2.92      342.73 ms     ±0.60%      342.79 ms      347.96 ms
+
+Comparison: 
+part2 fast            5.12
+part2 for v2          3.54 - 1.45x slower
+part2 for v1          2.92 - 1.76x slower
+```
 
 
 

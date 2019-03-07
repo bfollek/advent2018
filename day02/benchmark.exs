@@ -8,6 +8,9 @@ Benchee.run(
     end,
     "part2 for v2" => fn ->
       Day02.part2_for_v2("data/day02.txt")
+    end,
+    "part2 fast" => fn ->
+      Day02.part2_fast("data/day02.txt")
     end
   },
   time: 10,
