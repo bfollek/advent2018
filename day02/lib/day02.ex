@@ -124,4 +124,35 @@ defmodule Day02 do
 
     winner
   end
+
+  @doc """
+
+  Notes:
+
+  ## Examples
+
+      iex> Day02.part2_fast("data/day02.txt")
+      "fvstwblgqkhpuixdrnevmaycd"
+
+  """
+  def part2_fast(file_name) do
+    ss =
+      File.stream!(file_name)
+      # Do I need Enum here?
+      |> Enum.map(&String.trim/1)
+
+    check_string(ss, ss, ss)
+  end
+
+  def check_string([_h | t], [], ss), do: check_string(t, ss, ss)
+
+  def check_string([h1 | t1], [h2 | t2], ss) do
+    cc = common_chars(h1, h2)
+
+    if String.length(h1) == String.length(cc) + 1 do
+      cc
+    else
+      check_string([h1 | t1], t2, ss)
+    end
+  end
 end
