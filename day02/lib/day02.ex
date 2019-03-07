@@ -1,10 +1,6 @@
 defmodule Day02 do
   @moduledoc """
   Advent of Code 2018, day 2.
-
-  Todo:
-  Benchmark!
-  Don't build all the string pairs. Check a pair, stop ASAP.
   """
 
   @doc """
@@ -128,6 +124,9 @@ defmodule Day02 do
   @doc """
 
   Notes:
+  * No for form
+  * Doesn't pre-build all the string pairs
+  * Stops as soon as it finds the right strings
 
   ## Examples
 
