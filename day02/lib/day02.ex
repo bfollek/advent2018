@@ -62,7 +62,7 @@ defmodule Day02 do
   Notes:
   * Builds all the string pairs in the for form.
   * Finds the right strings by filtering in the for form.
-  * Calls common_chars/2 twice.
+  * Calls common_chars/2 repeatedly for each string.
 
   ## Examples
 
@@ -85,21 +85,21 @@ defmodule Day02 do
   end
 
   # True if first string is one char longer than the common chars.
-  def differ_by_1?(s1, s2), do: String.length(s1) == String.length(common_chars(s1, s2)) + 1
+  defp differ_by_1?(s1, s2), do: String.length(s1) == String.length(common_chars(s1, s2)) + 1
 
-  def common_chars(s1, s2) when is_binary(s1) and is_binary(s2),
+  defp common_chars(s1, s2) when is_binary(s1) and is_binary(s2),
     do: _common_chars(String.graphemes(s1), String.graphemes(s2)) |> Enum.join()
 
-  def _common_chars([], []), do: []
-  def _common_chars([h1 | t1], [h2 | t2]) when h1 == h2, do: [h1 | _common_chars(t1, t2)]
-  def _common_chars([_ | t1], [_ | t2]), do: _common_chars(t1, t2)
+  defp _common_chars([], []), do: []
+  defp _common_chars([h1 | t1], [h2 | t2]) when h1 == h2, do: [h1 | _common_chars(t1, t2)]
+  defp _common_chars([_ | t1], [_ | t2]), do: _common_chars(t1, t2)
 
   @doc """
 
   Notes:
   * Builds all the string pairs in the for form.
   * Finds the right strings after the for form.
-  * Calls common_chars/2 once.
+  * Calls common_chars/2 once for each string.
 
   ## Examples
 

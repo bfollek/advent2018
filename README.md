@@ -21,7 +21,7 @@ Conclusions:
 * The most readable version (IMO) uses a helper function. It performed as well as the more cryptic versions.
 
 Possible Explanations:
-* The high quality of the Elixir compiler and the beam VM;
+* The high quality of the elixir compiler and the beam VM;
 * I'm using a benchmarking tool I don't know to benchmark code I wrote in a language I don't know to solve a trivial problem. There may be tunnel-sized holes anywhere in my approach.
 
 #### Part 2
@@ -37,9 +37,11 @@ It's certainly possible I was using Stream.cycle incorrectly. I ended up repeate
 
 #### Part 2
 
-One nice thing here was finding String.myers_difference in the standard library. Handy for problems like this.
+The difference between my first versions, part2_for_v1 and part2_for_v2, is that part2_for_v2 minimizes calls to common_char(). It's about 50ms faster than part2_for_v1, according to day01/data/benchmarks.out.
 
-My first version, part2_for, uses a list comprehension (for form) to build and diff the pairs of strings. I think it's clean, but it has a performance drawback: We build **all** the pairs of strings before we look for the pair we want. It's more efficient to build a pair, test it, and build the next pair only if the first pair isn't the one we want. But Elixir's for form isn't lazy, and I couldn't find a way to short-circuit it.
+But both versions use a list comprehension (for form) to build the pairs of strings. I think the code is clean, but it has a performance drawback: We build **all** the pairs of strings to look for the pair we want. It's more efficient to build a pair, test it, and keep going only if we haven't found the pair we want. 
+
+elixir's for form isn't lazy, and I couldn't find a way to short-circuit it the way take() does in clojure. So I wrote...
 
 
 
