@@ -151,8 +151,10 @@ defmodule Day02 do
   defp check_string([h1 | _t1] = lst1, [h2 | t2], ss) do
     cc = common_chars(h1, h2)
 
-    # If the head of the first list and the head of the second list are the
-    # strings we're looking for, we're done. Return the common chars.
+    # If the common chars between the head of the first list and the
+    # head of the second list are just one char shorter than the head
+    # of the first list, the two heads differ by just one char, and
+    # we're done. Return the common chars.
     if String.length(h1) == String.length(cc) + 1 do
       cc
     else
