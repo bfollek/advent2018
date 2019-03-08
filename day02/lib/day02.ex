@@ -148,7 +148,7 @@ defmodule Day02 do
   defp check_string([_h | t], [], ss), do: check_string(t, ss, ss)
 
   # Check the head of the first list against each value in the second list.
-  defp check_string([h1 | t1], [h2 | t2], ss) do
+  defp check_string([h1 | _t1] = lst1, [h2 | t2], ss) do
     cc = common_chars(h1, h2)
 
     # If the head of the first list and the head of the second list are the
@@ -157,7 +157,7 @@ defmodule Day02 do
       cc
     else
       # Check the head of the first list against the next value in the second list.
-      check_string([h1 | t1], t2, ss)
+      check_string(lst1, t2, ss)
     end
   end
 end
