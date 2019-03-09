@@ -21,22 +21,22 @@ Benchmarking part2 for v1...
 Benchmarking part2 for v2...
 
 Name                       ips        average  deviation         median         99th %
-part2 fast agent          4.89      204.55 ms     ±4.07%      205.41 ms      218.79 ms
-part2 fast                4.79      208.69 ms     ±5.02%      209.95 ms      236.79 ms
-part2 for v2              3.48      287.42 ms     ±1.27%      287.86 ms      294.34 ms
-part2 for v1              2.89      346.52 ms     ±0.74%      346.51 ms      353.97 ms
+part2 fast                5.18      193.12 ms     ±1.77%      192.01 ms      203.04 ms
+part2 fast agent          5.16      193.96 ms     ±2.84%      192.29 ms      213.68 ms
+part2 for v2              3.54      282.73 ms     ±1.20%      281.66 ms      297.43 ms
+part2 for v1              2.90      344.49 ms     ±0.67%      344.84 ms      348.87 ms
 
 Comparison: 
-part2 fast agent          4.89
-part2 fast                4.79 - 1.02x slower
-part2 for v2              3.48 - 1.41x slower
-part2 for v1              2.89 - 1.69x slower
+part2 fast                5.18
+part2 fast agent          5.16 - 1.00x slower
+part2 for v2              3.54 - 1.46x slower
+part2 for v1              2.90 - 1.78x slower
 
 Memory usage statistics:
 
 Name                Memory usage
-part2 fast agent       297.78 MB
-part2 fast             297.66 MB - 1.00x memory usage
+part2 fast             297.66 MB
+part2 fast agent       297.78 MB - 1.00x memory usage
 part2 for v2           352.21 MB - 1.18x memory usage
 part2 for v1           399.59 MB - 1.34x memory usage
 

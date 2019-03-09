@@ -43,4 +43,6 @@ But both versions use a list comprehension (for form) to build the pairs of stri
 
 elixir's for form isn't lazy, and I couldn't find a way to short-circuit it the way take() does in clojure. So I wrote a version that doesn't use the for form, and stops as soon as it finds the right strings. It's called part2_fast, and it's significantly faster than the other versions.
 
-Then I wrote another version, part2_fast_agent, that stores the list of strings in an Agent rather than passing it around as a param. This slightly stateful solution seems a little cleaner, and runs a little faster, than part2_fast without the agent.
+Then I wrote another version, part2_fast_agent, that stores the list of strings in an Agent rather than passing it around as a param. This slightly stateful solution seems a little cleaner than, and just as fast as, part2_fast without the agent.
+
+

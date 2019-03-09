@@ -183,7 +183,7 @@ defmodule Day02 do
       |> Enum.map(&String.trim/1)
 
     # Unless the Agent is already running, start it
-    unless Process.whereis(SS), do: {:ok, _} = Agent.start(fn -> ss end, name: SS)
+    unless Process.whereis(SS), do: {:ok, _} = Agent.start_link(fn -> ss end, name: SS)
     check_string_fa(ss, ss)
   end
 
