@@ -11,6 +11,9 @@ Benchee.run(
     end,
     "part2 fast" => fn ->
       Day02.part2_fast("data/day02.txt")
+    end,
+    "part2 fast agent" => fn ->
+      Day02.part2_fast_agent("data/day02.txt")
     end
   },
   time: 10,

@@ -182,7 +182,8 @@ defmodule Day02 do
       File.stream!(file_name)
       |> Enum.map(&String.trim/1)
 
-    {:ok, _} = Agent.start(fn -> ss end, name: SS)
+    # Unless the Agent is already running, start it
+    unless Process.whereis(SS), do: {:ok, _} = Agent.start(fn -> ss end, name: SS)
     check_string_fa(ss, ss)
   end
 

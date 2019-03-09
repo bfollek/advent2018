@@ -1,3 +1,4 @@
+Compiling 1 file (.ex)
 Operating System: macOS
 CPU Information: Intel(R) Core(TM) i7-8559U CPU @ 2.70GHz
 Number of Available Cores: 8
@@ -11,28 +12,32 @@ time: 10 s
 memory time: 2 s
 parallel: 1
 inputs: none specified
-Estimated total run time: 42 s
+Estimated total run time: 56 s
 
 
 Benchmarking part2 fast...
+Benchmarking part2 fast agent...
 Benchmarking part2 for v1...
 Benchmarking part2 for v2...
 
-Name                   ips        average  deviation         median         99th %
-part2 fast            5.12      195.18 ms     ±3.05%      193.36 ms      214.54 ms
-part2 for v2          3.54      282.65 ms     ±1.34%      282.45 ms      291.57 ms
-part2 for v1          2.92      342.73 ms     ±0.60%      342.79 ms      347.96 ms
+Name                       ips        average  deviation         median         99th %
+part2 fast agent          4.89      204.55 ms     ±4.07%      205.41 ms      218.79 ms
+part2 fast                4.79      208.69 ms     ±5.02%      209.95 ms      236.79 ms
+part2 for v2              3.48      287.42 ms     ±1.27%      287.86 ms      294.34 ms
+part2 for v1              2.89      346.52 ms     ±0.74%      346.51 ms      353.97 ms
 
 Comparison: 
-part2 fast            5.12
-part2 for v2          3.54 - 1.45x slower
-part2 for v1          2.92 - 1.76x slower
+part2 fast agent          4.89
+part2 fast                4.79 - 1.02x slower
+part2 for v2              3.48 - 1.41x slower
+part2 for v1              2.89 - 1.69x slower
 
 Memory usage statistics:
 
-Name            Memory usage
-part2 fast         297.66 MB
-part2 for v2       352.21 MB - 1.18x memory usage
-part2 for v1       399.59 MB - 1.34x memory usage
+Name                Memory usage
+part2 fast agent       297.78 MB
+part2 fast             297.66 MB - 1.00x memory usage
+part2 for v2           352.21 MB - 1.18x memory usage
+part2 for v1           399.59 MB - 1.34x memory usage
 
 **All measurements for memory usage were the same**
