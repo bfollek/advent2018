@@ -162,4 +162,51 @@ defmodule Day02 do
       check_string(lst1, t2, ss)
     end
   end
+
+  @doc """
+
+  Notes:
+  * Uses an agent to store the original list of strings
+  * No for form
+  * Doesn't pre-build all the string pairs
+  * Stops as soon as it finds the right strings
+
+  ## Examples
+
+      iex> Day02.part2_fast_agent("data/day02.txt")
+      "fvstwblgqkhpuixdrnevmaycd"
+
+  """
+  def part2_fast_agent(file_name) do
+    ss =
+      File.stream!(file_name)
+      |> Enum.map(&String.trim/1)
+
+    {:ok, _} = Agent.start(fn -> ss end, name: SS)
+    check_string_fa(ss, ss)
+  end
+
+  # If the second list is empty, we've checked the head of the first list
+  # against all the other strings, without success. Move on to the next
+  # value in the first list, and start with a full second list.
+  defp check_string_fa([_h | t], []) do
+    ss = Agent.get(SS, & &1)
+    check_string_fa(t, ss)
+  end
+
+  # Check the head of the first list against each value in the second list.
+  defp check_string_fa([h1 | _t1] = lst1, [h2 | t2]) do
+    cc = common_chars(h1, h2)
+
+    # If the common chars between the head of the first list and the
+    # head of the second list are just one char shorter than the head
+    # of the first list, the two heads differ by just one char, and
+    # we're done. Return the common chars.
+    if String.length(h1) == String.length(cc) + 1 do
+      cc
+    else
+      # Check the head of the first list against the next value in the second list.
+      check_string_fa(lst1, t2)
+    end
+  end
 end
