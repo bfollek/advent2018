@@ -214,8 +214,6 @@ defmodule Day02 do
   @doc """
 
   todo
-    - combine code
-    - comment code
     - can I simplify the enum func?
 
   Notes:
@@ -229,30 +227,31 @@ defmodule Day02 do
 
   """
   def part2_conc(file_name) do
+    me = self()
+
     ss =
       File.stream!(file_name)
       |> Enum.map(&String.trim/1)
 
-    # Unless the Agent is already running, start it
-    # unless Process.whereis(SS), do: {:ok, _} = Agent.start_link(fn -> ss end, name: SS)
+    # For each pair of strings, spawn a process that diffs them.
+    for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, s2})
+    |> Enum.each(fn elem -> spawn_link(fn -> send(me, diff_strings(elem)) end) end)
 
-    pairs = for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, s2})
-    me = self()
-
-    # True if first string is one char longer than the common chars.
-    # defp differ_by_1?(s1, s2), do: String.length(s1) == String.length(common_chars(s1, s2)) + 1
-
-    Enum.each(pairs, fn elem -> spawn_link(fn -> send(me, diff_strings(elem)) end) end)
     message_loop()
   end
 
   defp message_loop do
     receive do
-      {:found, cc} -> cc
-      _ -> message_loop()
+      {:found, cc} ->
+        cc
+
+      _ ->
+        message_loop()
     end
   end
 
+  # If s1 and s2 differ by just 1 char, return :found and the common chars.
+  # In other cases, return :keep_looking
   defp diff_strings({s1, s2}) do
     cc = common_chars(s1, s2)
 
