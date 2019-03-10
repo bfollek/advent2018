@@ -210,4 +210,56 @@ defmodule Day02 do
       check_string_fa(lst1, t2)
     end
   end
+
+  @doc """
+
+  todo
+    - combine code
+    - comment code
+    - can I simplify the enum func?
+
+  Notes:
+  * Uses concurrency to search for the right strings
+  * Stops as soon as it finds (via a message) the right strings
+
+  ## Examples
+
+      iex> Day02.part2_conc("data/day02.txt")
+      "fvstwblgqkhpuixdrnevmaycd"
+
+  """
+  def part2_conc(file_name) do
+    ss =
+      File.stream!(file_name)
+      |> Enum.map(&String.trim/1)
+
+    # Unless the Agent is already running, start it
+    # unless Process.whereis(SS), do: {:ok, _} = Agent.start_link(fn -> ss end, name: SS)
+
+    pairs = for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, s2})
+    me = self()
+
+    # True if first string is one char longer than the common chars.
+    # defp differ_by_1?(s1, s2), do: String.length(s1) == String.length(common_chars(s1, s2)) + 1
+
+    Enum.each(pairs, fn elem -> spawn_link(fn -> send(me, diff_strings(elem)) end) end)
+    message_loop()
+  end
+
+  defp message_loop do
+    receive do
+      {:found, cc} -> cc
+      _ -> message_loop()
+    end
+  end
+
+  defp diff_strings({s1, s2}) do
+    cc = common_chars(s1, s2)
+
+    if String.length(s1) == String.length(cc) + 1 do
+      {:found, cc}
+    else
+      :keep_looking
+    end
+  end
 end
