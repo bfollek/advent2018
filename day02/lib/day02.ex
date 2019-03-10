@@ -255,7 +255,7 @@ defmodule Day02 do
     if String.length(s1) == String.length(cc) + 1 do
       {:found, cc}
     else
-      :keep_looking
+      :not_found
     end
   end
 end

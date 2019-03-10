@@ -12,32 +12,41 @@ time: 10 s
 memory time: 2 s
 parallel: 1
 inputs: none specified
-Estimated total run time: 56 s
+Estimated total run time: 1.17 min
 
 
+Benchmarking part2 conc...
 Benchmarking part2 fast...
 Benchmarking part2 fast agent...
 Benchmarking part2 for v1...
 Benchmarking part2 for v2...
 
 Name                       ips        average  deviation         median         99th %
-part2 fast                5.18      193.12 ms     ±1.77%      192.01 ms      203.04 ms
-part2 fast agent          5.16      193.96 ms     ±2.84%      192.29 ms      213.68 ms
-part2 for v2              3.54      282.73 ms     ±1.20%      281.66 ms      297.43 ms
-part2 for v1              2.90      344.49 ms     ±0.67%      344.84 ms      348.87 ms
+part2 conc                6.34      157.65 ms     ±5.81%      158.47 ms      178.55 ms
+part2 fast agent          5.12      195.30 ms     ±1.42%      194.81 ms      203.51 ms
+part2 fast                5.11      195.59 ms     ±1.83%      194.72 ms      208.02 ms
+part2 for v2              3.48      287.72 ms     ±1.08%      287.40 ms      295.11 ms
+part2 for v1              2.91      343.69 ms     ±0.62%      343.33 ms      347.86 ms
 
 Comparison: 
-part2 fast                5.18
-part2 fast agent          5.16 - 1.00x slower
-part2 for v2              3.54 - 1.46x slower
-part2 for v1              2.90 - 1.78x slower
+part2 conc                6.34
+part2 fast agent          5.12 - 1.24x slower
+part2 fast                5.11 - 1.24x slower
+part2 for v2              3.48 - 1.83x slower
+part2 for v1              2.91 - 2.18x slower
 
 Memory usage statistics:
 
-Name                Memory usage
-part2 fast             297.66 MB
-part2 fast agent       297.78 MB - 1.00x memory usage
-part2 for v2           352.21 MB - 1.18x memory usage
-part2 for v1           399.59 MB - 1.34x memory usage
+Name                     average  deviation         median         99th %
+part2 conc               4.16 MB     ±0.00%        4.16 MB        4.16 MB
+part2 fast agent       297.78 MB     ±0.00%      297.78 MB      297.78 MB
+part2 fast             297.66 MB     ±0.00%      297.66 MB      297.66 MB
+part2 for v2           352.21 MB     ±0.00%      352.21 MB      352.21 MB
+part2 for v1           399.59 MB     ±0.00%      399.59 MB      399.59 MB
 
-**All measurements for memory usage were the same**
+Comparison: 
+part2 conc               4.16 MB
+part2 fast agent       297.78 MB - 71.62x memory usage
+part2 fast             297.66 MB - 71.59x memory usage
+part2 for v2           352.21 MB - 84.71x memory usage
+part2 for v1           399.59 MB - 96.10x memory usage
