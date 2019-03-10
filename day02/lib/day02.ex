@@ -235,7 +235,7 @@ defmodule Day02 do
       s1 <- ss,
       s2 <- ss,
       s1 < s2,
-      do: spawn_link(fn -> send(me, diff_strings({s1, s2})) end)
+      do: spawn_link(fn -> send(me, diff_strings(s1, s2)) end)
     )
 
     message_loop()
@@ -252,14 +252,9 @@ defmodule Day02 do
   end
 
   # If s1 and s2 differ by just 1 char, return :found and the common chars.
-  # In other cases, return :keep_looking
-  defp diff_strings({s1, s2}) do
+  defp diff_strings(s1, s2) do
     cc = common_chars(s1, s2)
 
-    if String.length(s1) == String.length(cc) + 1 do
-      {:found, cc}
-    else
-      :not_found
-    end
+    if String.length(s1) == String.length(cc) + 1, do: {:found, cc}, else: :not_found
   end
 end
