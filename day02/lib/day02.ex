@@ -213,9 +213,6 @@ defmodule Day02 do
 
   @doc """
 
-  todo
-    - can I simplify the enum func?
-
   Notes:
   * Uses concurrency to search for the right strings
   * Stops as soon as it finds (via a message) the right strings
@@ -235,7 +232,7 @@ defmodule Day02 do
 
     # For each pair of strings, spawn a process that diffs them.
     for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, s2})
-    |> Enum.each(fn elem -> spawn_link(fn -> send(me, diff_strings(elem)) end) end)
+    |> Enum.each(&spawn_link(fn -> send(me, diff_strings(&1)) end))
 
     message_loop()
   end
