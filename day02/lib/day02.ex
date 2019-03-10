@@ -231,8 +231,12 @@ defmodule Day02 do
       |> Enum.map(&String.trim/1)
 
     # For each pair of strings, spawn a process that diffs them.
-    for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, s2})
-    |> Enum.each(&spawn_link(fn -> send(me, diff_strings(&1)) end))
+    for(
+      s1 <- ss,
+      s2 <- ss,
+      s1 < s2,
+      do: spawn_link(fn -> send(me, diff_strings({s1, s2})) end)
+    )
 
     message_loop()
   end
