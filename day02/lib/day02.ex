@@ -257,4 +257,30 @@ defmodule Day02 do
 
     if String.length(s1) == String.length(cc) + 1, do: {:found, cc}, else: :not_found
   end
+
+  @doc """
+
+  Notes:
+  * Uses concurrency to search for the right strings
+  * Stops as soon as it finds (via a message) the right strings
+
+  ## Examples
+
+      iex> Day02.part2_conc2("data/day02.txt")
+      "fvstwblgqkhpuixdrnevmaycd"
+
+  """
+  def part2_conc2(file_name) do
+    me = self()
+
+    ss =
+      File.stream!(file_name)
+      |> Enum.map(&String.trim/1)
+
+    # For each pair of strings, spawn a process that diffs them.
+    for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, s2})
+    |> Enum.each(&spawn_link(fn -> send(me, diff_strings(elem(&1, 0), elem(&1, 1))) end))
+
+    message_loop()
+  end
 end

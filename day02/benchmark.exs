@@ -17,6 +17,9 @@ Benchee.run(
     end,
     "part2 conc" => fn ->
       Day02.part2_conc("data/day02.txt")
+    end,
+    "part2 conc2" => fn ->
+      Day02.part2_conc2("data/day02.txt")
     end
   },
   time: 10,
