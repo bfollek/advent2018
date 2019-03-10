@@ -216,6 +216,7 @@ defmodule Day02 do
   Notes:
   * Uses concurrency to search for the right strings
   * Stops as soon as it finds (via a message) the right strings
+  * Uses the for form to spawn
 
   ## Examples
 
@@ -263,6 +264,7 @@ defmodule Day02 do
   Notes:
   * Uses concurrency to search for the right strings
   * Stops as soon as it finds (via a message) the right strings
+  * Spawns _after_ the for form
 
   ## Examples
 

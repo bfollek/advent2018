@@ -37,6 +37,8 @@ It's certainly possible I was using Stream.cycle incorrectly. I ended up repeate
 
 #### Part 2
 
+Spoiler: The fastest version was concurrent. But there was a wrinkle that surprised me.
+
 The difference between my first versions, part2_for_v1 and part2_for_v2, is that part2_for_v2 minimizes calls to common_char(). It's about 60ms faster than part2_for_v1 (benchmark output in day02/data/benchmarks.out).
 
 But both versions use a list comprehension (for form) to build the pairs of strings. I think the code is clean, but it has a performance drawback: We build **all** the pairs of strings to look for the pair we want. It's more efficient to build a pair, test it, and keep going only if we haven't found the pair we want. 
