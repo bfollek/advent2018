@@ -216,15 +216,15 @@ defmodule Day02 do
   Notes:
   * Uses concurrency to search for the right strings
   * Stops as soon as it finds (via a message) the right strings
-  * Uses the for form to spawn
+  * Spawns _after_ the for form
 
   ## Examples
 
-      iex> Day02.part2_conc("data/day02.txt")
+      iex> Day02.part2_conc_v1("data/day02.txt")
       "fvstwblgqkhpuixdrnevmaycd"
 
   """
-  def part2_conc(file_name) do
+  def part2_conc_v1(file_name) do
     me = self()
 
     ss =
@@ -232,12 +232,8 @@ defmodule Day02 do
       |> Enum.map(&String.trim/1)
 
     # For each pair of strings, spawn a process that diffs them.
-    for(
-      s1 <- ss,
-      s2 <- ss,
-      s1 < s2,
-      do: spawn_link(fn -> send(me, diff_strings(s1, s2)) end)
-    )
+    for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, s2})
+    |> Enum.each(&spawn_link(fn -> send(me, diff_strings(elem(&1, 0), elem(&1, 1))) end))
 
     message_loop()
   end
@@ -264,15 +260,15 @@ defmodule Day02 do
   Notes:
   * Uses concurrency to search for the right strings
   * Stops as soon as it finds (via a message) the right strings
-  * Spawns _after_ the for form
+  * Uses the for form to spawn
 
   ## Examples
 
-      iex> Day02.part2_conc2("data/day02.txt")
+      iex> Day02.part2_conc_v2("data/day02.txt")
       "fvstwblgqkhpuixdrnevmaycd"
 
   """
-  def part2_conc2(file_name) do
+  def part2_conc_v2(file_name) do
     me = self()
 
     ss =
@@ -280,9 +276,49 @@ defmodule Day02 do
       |> Enum.map(&String.trim/1)
 
     # For each pair of strings, spawn a process that diffs them.
-    for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, s2})
-    |> Enum.each(&spawn_link(fn -> send(me, diff_strings(elem(&1, 0), elem(&1, 1))) end))
+    for(
+      s1 <- ss,
+      s2 <- ss,
+      s1 < s2,
+      do: spawn_link(fn -> send(me, diff_strings(s1, s2)) end)
+    )
 
     message_loop()
+  end
+
+  @doc """
+
+  Notes:
+  * Uses concurrency to search for the right strings
+  * Stops as soon as it finds (via a message) the right strings
+  * Uses reduce_while
+
+  ## Examples
+
+      iex> Day02.part2_conc_v3("data/day02.txt")
+      "fvstwblgqkhpuixdrnevmaycd"
+
+  """
+  def part2_conc_v3(file_name) do
+    me = self()
+
+    ss =
+      File.stream!(file_name)
+      |> Enum.map(&String.trim/1)
+
+    # For each pair of strings, spawn a process that diffs them.
+    Enum.each(ss, &spawn_link(fn -> send(me, diff_strings_v3(&1, ss)) end))
+
+    message_loop()
+  end
+
+  defp diff_strings_v3(s, ss) do
+    rv =
+      Enum.reduce_while(ss, nil, fn nxt, _acc ->
+        cc = common_chars(s, nxt)
+        if String.length(s) == String.length(cc) + 1, do: {:halt, cc}, else: {:cont, nil}
+      end)
+
+    if rv, do: {:found, rv}, else: :not_found
   end
 end

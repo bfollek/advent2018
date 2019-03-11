@@ -47,4 +47,8 @@ elixir's for form isn't lazy, and I couldn't find a way to short-circuit it the 
 
 Then I wrote another version, part2_fast_agent, that stores the list of strings in an Agent rather than passing it around as a param. This slightly stateful solution seems a little cleaner than, and just as fast as, part2_fast without the agent.
 
+Then I wrote a concurrent version, spawning a separate process to diff each pair of strings. My first version, part2_conc, was significantly faster than any other version on my 8-core MacBook. 
+
+Enum.each doesn't have to concat the results...
+
 
