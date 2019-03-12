@@ -37,18 +37,34 @@ It's certainly possible I was using Stream.cycle incorrectly. I ended up repeate
 
 #### Part 2
 
-Spoiler: The fastest version was concurrent. But there was a wrinkle that surprised me.
+I wrote several versions. The fastest were concurrent on my 8-core MacBook. See day02/data/benchmarks.out.
 
-The difference between my first versions, part2_for_v1 and part2_for_v2, is that part2_for_v2 minimizes calls to common_char(). It's about 60ms faster than part2_for_v1 (benchmark output in day02/data/benchmarks.out).
+One surprise: Changing this
 
-But both versions use a list comprehension (for form) to build the pairs of strings. I think the code is clean, but it has a performance drawback: We build **all** the pairs of strings to look for the pair we want. It's more efficient to build a pair, test it, and keep going only if we haven't found the pair we want. 
+```
+# For each pair of strings, spawn a process that diffs them.
+for(s1 <- ss, s2 <- ss, s1 < s2, do: {s1, s2})
+|> Enum.each(&spawn_link(fn -> send(me, diff_strings(elem(&1, 0), elem(&1, 1))) end))
+```
 
-elixir's for form isn't lazy, and I couldn't find a way to short-circuit it the way take() does in clojure. So I wrote a version that doesn't use the for form, and stops as soon as it finds the right strings. It's called part2_fast, and it's significantly faster than the other versions.
+to this
 
-Then I wrote another version, part2_fast_agent, that stores the list of strings in an Agent rather than passing it around as a param. This slightly stateful solution seems a little cleaner than, and just as fast as, part2_fast without the agent.
+```
+ # For each pair of strings, spawn a process that diffs them.
+for(
+  s1 <- ss,
+  s2 <- ss,
+  s1 < s2,
+  do: spawn_link(fn -> send(me, diff_strings(s1, s2)) end)
+)
+```
 
-Then I wrote a concurrent version, spawning a separate process to diff each pair of strings. My first version, part2_conc, was significantly faster than any other version on my 8-core MacBook. 
+turned the fastest version into a relatively slow one. That is, the version that takes an apparent extra step and spawns via an Enum.each call, rather than directly from the for loop, was much faster than the version that spawns from the for loop.
 
-Enum.each doesn't have to concat the results...
+Conclusion:
+* Using multiple processes can be easy and effective, but small differences in the code can have large performance impacts. Benchmark to be sure.
+
+Possible Explanation:
+* I guess moving the spawn_link call into the for loop means a slight delay between spawns while the for loop conses up the result list. This delay means the processes don't get started as quickly, and that slows everything down.
 
 
