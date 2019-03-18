@@ -1,0 +1,3 @@
+%{
+  "private": {:git, "https://github.com/bfollek/private.git", "b575347cce3779289856ed807f7c2454f57aa0b8", []},
+}
