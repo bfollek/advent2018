@@ -49,13 +49,7 @@ defmodule Day03 do
             do: {{x, y}, claim.id}
 
       Enum.reduce(elements, inches, fn {key, new_value}, inches ->
-        {_, m} =
-          Map.get_and_update(inches, key, fn current_value ->
-            rv = if current_value, do: [new_value | current_value], else: [new_value]
-            {current_value, rv}
-          end)
-
-        m
+        Map.update(inches, key, [new_value], fn old_value -> [new_value | old_value] end)
       end)
     end
   end
