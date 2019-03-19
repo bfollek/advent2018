@@ -46,10 +46,16 @@ defmodule Day03 do
       elements =
         for x <- claim.left..(claim.left + claim.width - 1),
             y <- claim.top..(claim.top + claim.height - 1),
-            do: {{x, y}, [claim.id]}
+            do: {{x, y}, claim.id}
 
-      Map.merge(inches, Map.new(elements), fn _k, v1, v2 ->
-        v1 ++ v2
+      Enum.reduce(elements, inches, fn {key, new_value}, inches ->
+        {_, m} =
+          Map.get_and_update(inches, key, fn current_value ->
+            rv = if current_value, do: [new_value | current_value], else: [new_value]
+            {current_value, rv}
+          end)
+
+        m
       end)
     end
   end
