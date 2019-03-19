@@ -21,8 +21,13 @@ defmodule Day03 do
   def part1(file_name) do
     file_to_claims(file_name)
     |> Enum.reduce(%{}, &map_inches/2)
+    # Get the values out of the inches map.
+    # Each value is a list of claim id's.
     |> Map.values()
+    # Filter out the single-id lists.
     |> Enum.filter(&(length(&1) > 1))
+    # The length of the resulting list is the
+    # number of square inches with multiple claims.
     |> length
   end
 
@@ -33,7 +38,7 @@ defmodule Day03 do
       File.stream!(file_name)
       |> Stream.map(&String.trim/1)
       |> Stream.map(&Regex.run(re, &1))
-      |> Enum.map(fn [_, id, left, top, width, height] ->
+      |> Stream.map(fn [_, id, left, top, width, height] ->
         %Claim{
           id: id,
           left: String.to_integer(left),
@@ -48,8 +53,15 @@ defmodule Day03 do
       elements =
         for x <- claim.left..(claim.left + claim.width - 1),
             y <- claim.top..(claim.top + claim.height - 1),
+            # {{2,3}, "902"} - {{square inch coordinates}, "claim id"}
             do: {{x, y}, claim.id}
 
+      # inches is a map whose keys are coordinates and whose values
+      # are lists of claim ids:
+      # %{
+      #   {2,3} => ["902"],
+      #   {2,4} => ["902", "81"]
+      # }
       Enum.reduce(elements, inches, fn {key, new_value}, inches ->
         case Map.fetch(inches, key) do
           {:ok, old_value} -> %{inches | key => [new_value | old_value]}
