@@ -19,11 +19,11 @@ defmodule Day03 do
 
   """
   def part1(file_name) do
-    claims = file_to_claims(file_name)
-    inches = Enum.reduce(claims, %{}, &map_inches/2)
-    vals = Map.values(inches)
-    two_or_more = Enum.filter(vals, &(length(&1) > 1))
-    length(two_or_more)
+    file_to_claims(file_name)
+    |> Enum.reduce(%{}, &map_inches/2)
+    |> Map.values()
+    |> Enum.filter(&(length(&1) > 1))
+    |> length
   end
 
   private do
