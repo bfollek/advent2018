@@ -15,7 +15,7 @@ defmodule Day03 do
   ## Examples
 
       iex> Day03.part1("data/day03.txt")
-      8715
+      109716
 
   """
   def part1(file_name) do
@@ -24,7 +24,6 @@ defmodule Day03 do
     vals = Map.values(inches)
     two_or_more = Enum.filter(vals, &(length(&1) > 1))
     length(two_or_more)
-    # 999
   end
 
   private do
@@ -52,7 +51,10 @@ defmodule Day03 do
             do: {{x, y}, claim.id}
 
       Enum.reduce(elements, inches, fn {key, new_value}, inches ->
-        Map.update(inches, key, [new_value], fn old_value -> [new_value | old_value] end)
+        case Map.fetch(inches, key) do
+          {:ok, old_value} -> %{inches | key => [new_value | old_value]}
+          :error -> Map.put_new(inches, key, [new_value])
+        end
       end)
     end
   end
