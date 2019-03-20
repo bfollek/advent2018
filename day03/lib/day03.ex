@@ -50,6 +50,7 @@ defmodule Day03 do
 
       File.stream!(file_name)
       |> Stream.map(&String.trim/1)
+      # Capture just the matching fields, not the matching part of the string
       |> Stream.map(&Regex.run(re, &1, capture: :all_but_first))
       |> Stream.map(fn fields -> Enum.map(fields, &String.to_integer/1) end)
       |> Stream.map(fn [id, left, top, width, height] ->
