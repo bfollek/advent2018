@@ -19,8 +19,7 @@ defmodule Day03 do
 
   """
   def part1(file_name) do
-    file_to_claims(file_name)
-    |> Enum.reduce(%{}, &map_inches/2)
+    file_to_inches_map(file_name)
     # Get the values out of the inches map.
     # Each value is a list of claim id's.
     |> Map.values()
@@ -36,8 +35,8 @@ defmodule Day03 do
 
   ## Examples
 
-      #iex> Day03.part2("data/day03.txt")
-      #124
+      iex> Day03.part2("data/day03.txt")
+      124
 
   """
   def part2(file_name) do
@@ -45,7 +44,13 @@ defmodule Day03 do
   end
 
   private do
-    defp file_to_claims(file_name) do
+    # The inches map has keys that are square inch coordinates and
+    # values that are lists of claim ids that contain the key:
+    # %{
+    #   {2,3} => ["902"],
+    #   {2,4} => ["902", "81"]
+    # }
+    defp file_to_inches_map(file_name) do
       re = ~r/#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/
 
       File.stream!(file_name)
@@ -56,6 +61,7 @@ defmodule Day03 do
       |> Stream.map(fn [id, left, top, width, height] ->
         %Claim{id: id, left: left, top: top, width: width, height: height}
       end)
+      |> Enum.reduce(%{}, &map_inches/2)
     end
 
     defp map_inches(claim, inches) do
@@ -65,12 +71,6 @@ defmodule Day03 do
             # {{2,3}, "902"} - {{square inch coordinates}, "claim id"}
             do: {{x, y}, claim.id}
 
-      # inches is a map whose keys are coordinates and whose values
-      # are lists of claim ids:
-      # %{
-      #   {2,3} => ["902"],
-      #   {2,4} => ["902", "81"]
-      # }
       Enum.reduce(elements, inches, fn {key, new_value}, inches ->
         case Map.fetch(inches, key) do
           {:ok, old_value} -> %{inches | key => [new_value | old_value]}
