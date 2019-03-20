@@ -40,7 +40,20 @@ defmodule Day03 do
 
   """
   def part2(file_name) do
-    999
+    m =
+      file_to_inches_map(file_name)
+      # Get the values out of the inches map.
+      # Each value is a list of claim id's.
+      |> Map.values()
+      # Separate single-id lists from multi-id lists
+      |> Enum.group_by(&(length(&1) == 1))
+
+    single_ids = m.true |> List.flatten() |> MapSet.new()
+    multi_ids = m.false |> List.flatten() |> MapSet.new()
+    # ids can be in both lists. The one difference is the answer.
+    MapSet.difference(single_ids, multi_ids)
+    |> MapSet.to_list()
+    |> hd()
   end
 
   private do
