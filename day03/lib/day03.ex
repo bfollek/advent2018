@@ -31,6 +31,19 @@ defmodule Day03 do
     |> length
   end
 
+  @doc """
+  What is the ID of the only claim that doesn't overlap?
+
+  ## Examples
+
+      #iex> Day03.part2("data/day03.txt")
+      #124
+
+  """
+  def part2(file_name) do
+    999
+  end
+
   private do
     defp file_to_claims(file_name) do
       re = ~r/#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/
