@@ -51,14 +51,10 @@ defmodule Day03 do
       File.stream!(file_name)
       |> Stream.map(&String.trim/1)
       |> Stream.map(&Regex.run(re, &1))
-      |> Stream.map(fn [_, id, left, top, width, height] ->
-        %Claim{
-          id: id,
-          left: String.to_integer(left),
-          top: String.to_integer(top),
-          width: String.to_integer(width),
-          height: String.to_integer(height)
-        }
+      |> Stream.map(&Enum.drop(&1, 1))
+      |> Stream.map(&Enum.map(&1, fn s -> String.to_integer(s) end))
+      |> Stream.map(fn [id, left, top, width, height] ->
+        %Claim{id: id, left: left, top: top, width: width, height: height}
       end)
     end
 
