@@ -52,7 +52,7 @@ defmodule Day03 do
     multi_ids = m.false |> List.flatten() |> MapSet.new()
     # ids can be in both lists. The one difference is the answer.
     MapSet.difference(single_ids, multi_ids)
-    |> MapSet.to_list()
+    # |> MapSet.to_list()
     |> hd()
   end
 
