@@ -50,9 +50,7 @@ defmodule Day03 do
 
       File.stream!(file_name)
       |> Stream.map(&String.trim/1)
-      |> Stream.map(&Regex.run(re, &1))
-      # First result of regex is the whole string. Drop it.
-      |> Stream.map(&Enum.drop(&1, 1))
+      |> Stream.map(&Regex.run(re, &1, capture: :all_but_first))
       |> Stream.map(fn fields -> Enum.map(fields, &String.to_integer/1) end)
       |> Stream.map(fn [id, left, top, width, height] ->
         %Claim{id: id, left: left, top: top, width: width, height: height}
