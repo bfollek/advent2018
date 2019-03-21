@@ -84,13 +84,20 @@ defmodule Day03 do
             do: {{x, y}, claim.id}
 
       Enum.reduce(elements, inches, fn {key, new_value}, inches ->
-        handle_result = fn
+        case Map.fetch(inches, key) do
           {:ok, old_value} -> %{inches | key => [new_value | old_value]}
           :error -> Map.put_new(inches, key, [new_value])
         end
-
-        Map.fetch(inches, key) |> handle_result.()
       end)
+
+      # Enum.reduce(elements, inches, fn {key, new_value}, inches ->
+      #   handle_result = fn
+      #     {:ok, old_value} -> %{inches | key => [new_value | old_value]}
+      #     :error -> Map.put_new(inches, key, [new_value])
+      #   end
+
+      #   Map.fetch(inches, key) |> handle_result.()
+      # end)
     end
   end
 end
