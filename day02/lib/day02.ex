@@ -84,11 +84,11 @@ defmodule Day02 do
   defp differ_by_1?(s1, s2), do: String.length(s1) == String.length(common_chars(s1, s2)) + 1
 
   defp common_chars(s1, s2) when is_binary(s1) and is_binary(s2),
-    do: _common_chars(String.graphemes(s1), String.graphemes(s2)) |> Enum.join()
+    do: common_chars(String.graphemes(s1), String.graphemes(s2)) |> Enum.join()
 
-  defp _common_chars([], []), do: []
-  defp _common_chars([h1 | t1], [h2 | t2]) when h1 == h2, do: [h1 | _common_chars(t1, t2)]
-  defp _common_chars([_ | t1], [_ | t2]), do: _common_chars(t1, t2)
+  defp common_chars([], []), do: []
+  defp common_chars([h1 | t1], [h2 | t2]) when h1 == h2, do: [h1 | common_chars(t1, t2)]
+  defp common_chars([_ | t1], [_ | t2]), do: common_chars(t1, t2)
 
   @doc """
 
