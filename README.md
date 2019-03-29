@@ -1,10 +1,10 @@
-# Advent2018
+# advent2018ex
 
 Advent of Code 2018 in elixir
 
 I'm doing this to learn elixir.
 
-### Day 1
+### Day 1 - Complete
 
 #### Part 1
 
@@ -33,7 +33,7 @@ For this part, you have to potentially loop through the list of numbers in the f
 
 It's certainly possible I was using Stream.cycle incorrectly. I ended up repeatedly loading the numbers from file as needed, and that worked fine: I got the right answer, and it was fast.
 
-### Day 2
+### Day 2 - Complete
 
 #### Part 2
 
@@ -66,5 +66,8 @@ Conclusion:
 
 Possible Explanation:
 * I guess moving the spawn_link call into the for loop means a slight delay between spawns while the for loop conses up the result list. This delay means the processes don't get started as quickly, and that slows everything down.
+
+### Day 3 - Complete
+
 
 
